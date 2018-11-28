@@ -15,13 +15,31 @@ set $mod Mod4
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:terminus 11
+font pango:terminus 13
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
+
+#monitor vars
+set $monitor_left DP-2-1
+set $monitor_center DP-2-2
+set $monitor_right DP-1
+
+#outputs/monitors to set on workspace
+workspace $tag1 output $monitor_left
+workspace $tag4 output $monitor_left
+workspace $tag7 output $monitor_left
+
+workspace $tag3 output $monitor_right
+workspace $tag6 output $monitor_right
+workspace $tag9 output $monitor_right
+
+workspace $tag2 output $monitor_center
+workspace $tag5 output $monitor_center
+workspace $tag8 output $monitor_center
 
 #workspace_layout tabbed
 
@@ -36,7 +54,7 @@ bindsym $mod+KP_Enter exec urxvt -cd "`xcwd`"
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -fn 'xfg::terminus:pixelsize=16'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -76,7 +94,7 @@ bindsym $mod+v split v; exec notify-send 'Splitting windows vertically.'
 bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking; exec notify-send 'Stacking windows.'
+bindsym $mod+s exec i3lock -i ~/Pictures/matrix.png -tf ; exec notify-send "LOCK DOWN" #layout stacking; exec notify-send 'Stacking windows.'
 bindsym $mod+w layout tabbed; exec notify-send 'Tabbing windows.'
 bindsym $mod+e layout toggle split; exec notify-send 'Splitting windows.'
 
@@ -92,7 +110,8 @@ bindsym $mod+a focus parent
 
 # misc keys
 bindsym $mod+c exec firefox
-bindsym $mod+Shift+p exec  ~/.scripts/shutdown.sh
+bindsym $mod+Shift+p exec  sudo s2disk
+bindsym $mod+Ctrl+Shift+p exec  ~/.scripts/shutdown.sh
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -164,17 +183,6 @@ bindsym $mod+Shift+8 move container to workspace $tag8; workspace $tag8
 bindsym $mod+Shift+9 move container to workspace $tag9; workspace $tag9
 bindsym $mod+Shift+0 move container to workspace $tag10; workspace $tag10
 
-workspace $tag1 output DVI-I-1
-workspace $tag3 output DVI-I-1
-workspace $tag5 output DVI-I-1
-workspace $tag7 output DVI-I-1
-workspace $tag9 output DVI-I-1
-workspace $tag2 output DVI-D-0
-workspace $tag4 output DVI-D-0
-workspace $tag6 output DVI-D-0
-workspace $tag8 output DVI-D-0
-workspace $tag10 output DVI-D-0
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -213,6 +221,7 @@ bindsym $mod+i exec setxkbmap se
 bindsym $mod+u exec setxkbmap us
 
 #bindsym $mod+Control+h exec pacmd set-default-sink 2 & 
+bindym $mod+n exec ~/Projects/bash/set_layout.sh
 
 # Print screen
 bindsym Print exec import -window root `date +%Y-%m-%d_%H:%M`.png && mv `date +%Y-%m-%d_%H:%M`.png ~/Pictures/
@@ -230,5 +239,5 @@ hide_edge_borders both
 
 
 #start programs/scripts
-exec ~/.scripts/startup.sh
-#exec --no-startup-id feh --randomize --bg-fill /mnt/external_hdd/Downloads/pics/wallpapers/*
+exec ~/Projects/bash/start.sh
+#exec --no-startup-id urxvt -cd "`xcwd`" 'workspace1
